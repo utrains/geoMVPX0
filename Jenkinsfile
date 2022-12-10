@@ -34,4 +34,4 @@ pipeline{
                 sh 'ls'
             }
     }
-}
+'}'
