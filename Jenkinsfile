@@ -18,7 +18,8 @@ pipeline{
                     [[artifactId: "${mavenPOM.artifactId}",
                     classifier: '',
                     file: "target/${mavenPOM.artifactId}-${mavenPOM.version}.${mavenPOM.packaging}",
-                    type: "${mavenPOM.packaging}"]], 
+                    type: "${mavenPOM.packaging}"]
+                    type: "${POM_PACKAGING}"]],
                     credentialsId: 'NexusID', 
                     groupId: "${mavenPOM.groupId}", 
                      nexusUrl: '45.56.67.125:8081', 
@@ -32,7 +33,6 @@ pipeline{
     stage( 'list the dir' ){
             steps{
                 sh 'ls'
-            }
         }    
     }
 }
