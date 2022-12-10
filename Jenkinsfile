@@ -33,5 +33,6 @@ pipeline{
             steps{
                 sh 'ls'
             }
+        }
     }
-'}'
+}
