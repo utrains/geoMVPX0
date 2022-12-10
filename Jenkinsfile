@@ -1,38 +1,31 @@
-pipeline{
-    agent any
-    tools {
-        maven 'M2_HOME'
+pipeline {
+    triggers {
+  pollSCM('* * * * *')
     }
-    stages{
-        stage( 'mavin build' ){
-            steps{
-                sh 'mvn clean install package'
-            }
-        }
+   agent any
+    tools {
+  maven 'M2_HOME'
+}
 
-    stage( 'upload artifact' ){
-            steps{
-                script{
-                    def mavenPom = readMavenPom file: 'pom.xml'
-                    nexusArtifactUploader artifacts: 
-                    [[artifactId: "${mavenPOM.artifactId}",
-                    classifier: '',
-                    file: "target/${mavenPOM.artifactId}-${mavenPOM.version}.${mavenPOM.packaging}",
-                    type: "${mavenPOM.packaging}"]], 
-                    credentialsId: 'NexusID', 
-                    groupId: "${mavenPOM.groupId}", 
-                     nexusUrl: '45.56.67.125:8081', 
-                      nexusVersion: 'nexus3', 
-                       protocol: 'http', 
-                        repository: 'bio-med',
-                         version: "${mavenPom.version}"
+    stages {
+        stage("build & SonarQube analysis") {
+            agent any {  
+            
+            steps {
+              withSonarQubeEnv('SonarServer') {
+                  sh 'mvn sonar:sonar'
+              }
+            }
+          }
+       
+        stage('maven package') {
+            steps {
+                sh 'mvn clean'
+                sh 'mvn install -DskipTests'
+                sh 'mvn package -DskipTests'
+            }
+            stage('test') {
+                steps {
+                    sh 'mvn test'
                 }
             }
-    }
-    stage( 'list the dir' ){
-            steps{
-                sh 'ls'
-            }
-        }    
-    }
-}
