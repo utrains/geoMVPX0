@@ -12,6 +12,7 @@ pipeline{
 
     stage( 'upload artifact' ){
             steps{
+                script{
                 nexusArtifactUploader artifacts: 
                 [[artifactId: '${POM_ARTIFACTID}',
                 classifier: '',
@@ -23,7 +24,7 @@ pipeline{
                 nexusVersion: 'nexus3', 
                 protocol: 'http', 
                 repository: 'bio-med', 
-                version: '${POM_VERSION}'
+                }
             }
     }
     stage( 'list the dir' ){
