@@ -9,7 +9,7 @@ tools {
 
   //  this will be the trigger for this jon
   triggers {
-  pollSCM '* * * * *'
+  pollSCM ('* * * * *')
 }
 
     
