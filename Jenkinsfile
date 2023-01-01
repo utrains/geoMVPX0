@@ -1,4 +1,11 @@
 pipeline {
+
+ //  this will be the trigger for this jon
+  triggers {
+  pollSCM ('* * * * *')
+}
+
+
     agent any
 
 // adding tools to get the job done, this help us to run maven commands
@@ -7,11 +14,7 @@ tools {
   maven 'M2_HOME'
 }
 
-  //  this will be the trigger for this jon
-  triggers {
-  pollSCM ('* * * * *')
-}
-
+ 
     
      stages{
      
