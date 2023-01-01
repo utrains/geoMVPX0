@@ -1,16 +1,37 @@
 pipeline {
     agent any
+
+// adding tools to get the job done, this help us to run maven commands
+
+tools {
+  maven 'M2_HOME'
+}
+
+  //  this will be the trigger for this jon
+  triggers {
+  pollSCM '* * * * *'
+}
+
     
      stages{
      
-      stage('Hello World'){
+      stage('Maven'){
+        // maven commands to perform tasks on out code
        steps {
-         echo "Hello World"
+
+        sh 'mvn clean'
+        sh 'mvn install'
+        sh 'mvn package'
+
+        //  echo "Hello World"
+         
        }
     }
-    stage('Development'){
+    stage('test'){
        steps {
-         echo "Development"
+        //  echo "Development"
+                sh 'mvn test'
+
            sleep 4
        }
     }
