@@ -1,0 +1,25 @@
+# this Application: estephe-argo-app will be created in the same namespace where 
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: utrains-argo-app
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/utrains/geo_github_action.git
+    path: geo-app-chart
+    targetRevision: PROD
+    helm:
+      valueFiles:
+        - values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: geo-dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
+      - ServerSideApply=true

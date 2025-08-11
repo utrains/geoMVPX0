@@ -1,4 +1,9 @@
-FROM openjdk:8
-ADD target/spring-boot-maven-plugin.jar spring-boot-maven-plugin.jar
-EXPOSE 8081
-ENTRYPORT ["-java","-jar","spring-boot-maven-plugin.jar"]
+FROM openjdk:17
+
+EXPOSE 8087
+ENV APP_HOME /usr/src/app
+COPY target/*.jar $APP_HOME/app.jar
+WORKDIR $APP_HOME
+
+CMD ["java", "-jar", "app.jar"]
+# Build the application JAR file before building the Docker image
