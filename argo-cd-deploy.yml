@@ -1,4 +1,5 @@
-# this Application: estephe-argo-app will be created in the same namespace where 
+# this file is used to deploy ArgoCD in the cluster
+# and to deploy the application using ArgoCD
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
